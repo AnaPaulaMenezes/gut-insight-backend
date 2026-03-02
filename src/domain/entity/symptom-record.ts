@@ -20,16 +20,6 @@ export class SymptomRecord {
     this.symptoms = this.symptoms.map(s => this.validateAndSanitizeSymptom(s));
   }
 
-//   public addSymptom(symptom: SymptomObservation): void {
-//     const sanitizedSymptom = this.validateAndSanitizeSymptom(symptom);
-//     this.symptoms.push(sanitizedSymptom);
-//   }
-
-//   public removeSymptom(symptom: string): void {
-//     const sanitizedSymptom = this.sanitizeSymptom(symptom);
-//     this.symptoms = this.symptoms.filter(s => s.symptom !== sanitizedSymptom);  
-//   }
-
   public updateRecordAt(date: Date): void {
     if (!date) {
       throw new Error("Record date is required");
@@ -48,6 +38,18 @@ export class SymptomRecord {
 
   public getId(): string {
     return this.id;
+  }
+
+  public getSymptoms(): SymptomObservation[] {
+    return this.symptoms;
+  };
+
+  public getRecordAt(): Date {
+    return this.recordAt;
+  }
+
+  public getNotes(): string | undefined {
+    return this.notes;
   }
 
   private validate(): void {
