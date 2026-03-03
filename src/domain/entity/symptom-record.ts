@@ -7,17 +7,23 @@ declare type SymptomObservation = {
 };
 
 export class SymptomRecord {
-  private readonly id: string;
 
-  constructor(
+  private constructor(
+    private readonly id: string,
     private readonly userId: string,
     private recordAt: Date,
     private symptoms: SymptomObservation[],
     private notes?: string,
   ) {
-    this.id = Crypto.randomUUID();
-    this.validate();
     this.symptoms = this.symptoms.map(s => this.validateAndSanitizeSymptom(s));
+    this.validate();
+  }
+
+  public static create(userId: string, recordAt: Date, symptoms: SymptomObservation[], notes?: string): SymptomRecord {
+    return new SymptomRecord(Crypto.randomUUID(), userId, recordAt, symptoms, notes);
+  }
+  public static rehydrate(id: string, userId: string, recordAt: Date, symptoms: SymptomObservation[], notes: string): SymptomRecord {
+    return new SymptomRecord(id, userId, recordAt, symptoms, notes);
   }
 
   public updateRecordAt(date: Date): void {
@@ -41,7 +47,7 @@ export class SymptomRecord {
   }
 
   public getSymptoms(): SymptomObservation[] {
-    return this.symptoms;
+    return [...this.symptoms];
   };
 
   public getRecordAt(): Date {
@@ -50,6 +56,10 @@ export class SymptomRecord {
 
   public getNotes(): string | undefined {
     return this.notes;
+  }
+
+  public getUserId(): string {
+    return this.userId;
   }
 
   private validate(): void {
@@ -77,7 +87,7 @@ export class SymptomRecord {
   }
 
   private validateIntensity(intensity: number): void {
-    if (intensity < 0 || intensity > 10) {
+    if (isNaN(intensity) || intensity < 0 || intensity > 10) {
       throw new Error("Intensity must be between 0 and 10");
     }
   }

@@ -1,7 +1,7 @@
 import { ListSymptomRecordInputDTO } from "./model/list-symptom-record-input.dto";
 import { ListSymptomRecordOutput } from "./model/list-symptom-record-output.dto";
-import { SymptomRecord } from "../../domain/entity/symptom-record";
-import { SymptomRecordRepository } from "../../domain/repository/symptom-record.repository";
+import { SymptomRecord } from "../../../domain/entity/symptom-record";
+import { SymptomRecordRepository } from "../../../domain/repository/symptom-record.repository";
 
 export class ListSymptomRecordUseCase {
   constructor(

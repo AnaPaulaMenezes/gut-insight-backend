@@ -1,7 +1,7 @@
 import { SymptomRecordInputDTO } from "./model/symptom-record-input.dto";
 import { SymptomRecordOutputDTO } from "./model/symptom-record-output.dto";
-import { SymptomRecord } from "../../domain/entity/symptom-record";
-import { SymptomRecordRepository } from "../../domain/repository/symptom-record.repository";
+import { SymptomRecord } from "../../../domain/entity/symptom-record";
+import { SymptomRecordRepository } from "../../../domain/repository/symptom-record.repository";
 
 export class RegisterSymptomRecordUseCase {
   constructor(
@@ -11,7 +11,7 @@ export class RegisterSymptomRecordUseCase {
   public async execute(
     record: SymptomRecordInputDTO,
   ): Promise<SymptomRecordOutputDTO> {
-    const symptomRecord = new SymptomRecord(
+    const symptomRecord =  SymptomRecord.create(
       record.userId,
       new Date(record.recordAt),
       record.symptoms,

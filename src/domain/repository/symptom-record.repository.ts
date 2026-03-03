@@ -1,4 +1,4 @@
-import { ListSymptomRecordInputDTO } from "../../use-case/symptom-record/model/list-symptom-record-input.dto";
+import { ListSymptomRecordInputDTO } from "../../application/use-case/symptom-record/model/list-symptom-record-input.dto";
 import { SymptomRecord } from "../entity/symptom-record";
 
 export interface SymptomRecordRepository {
