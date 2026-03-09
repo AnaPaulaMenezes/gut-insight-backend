@@ -4,6 +4,7 @@
         "module": "esnext",
         "moduleResolution": "bundler",
         "strict": true,
-        "esModuleInterop": true
+        "esModuleInterop": true,
+        "types": ["Node", "jest"]
      }
    }
