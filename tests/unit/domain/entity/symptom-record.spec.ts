@@ -67,4 +67,45 @@ describe('SymptomRecord', () => {
       record.updateSymptoms([{ symptom: 'bloating', intensity: -1 }]),
     ).toThrow('Intensity must be between 0 and 10');
   });
+
+  it('should throw when updating symptoms with intensity greater than 10', () => {
+    const record = SymptomRecord.create(
+      'user-1',
+      new Date('2025-10-14T00:00:00Z'),
+      [{ symptom: 'bloating', intensity: 3 }],
+    );
+
+    expect(() =>
+      record.updateSymptoms([{ symptom: 'bloating', intensity: 11 }]),
+    ).toThrow('Intensity must be between 0 and 10');
+  });
+
+  it('should allow updating record date and notes', () => {
+    const record = SymptomRecord.create(
+      'user-1',
+      new Date('2025-10-14T00:00:00Z'),
+      [{ symptom: 'bloating', intensity: 3 }],
+      'initial notes',
+    );
+
+    record.updateRecordAt(new Date('2025-10-15T00:00:00Z'));
+    record.updateNotes('updated notes');
+
+    expect(record.getRecordAt().toISOString()).toBe('2025-10-15T00:00:00.000Z');
+    expect(record.getNotes()).toBe('updated notes');
+  });
+
+  it('should normalize symptoms when updating', () => {
+    const record = SymptomRecord.create(
+      'user-1',
+      new Date('2025-10-14T00:00:00Z'),
+      [{ symptom: 'bloating', intensity: 3 }],
+    );
+
+    record.updateSymptoms([{ symptom: ' Bloating ', intensity: 4, notes: 'x' }]);
+
+    expect(record.getSymptoms()).toEqual([
+      { symptom: 'bloating', intensity: 4, notes: 'x' },
+    ]);
+  });
 });
