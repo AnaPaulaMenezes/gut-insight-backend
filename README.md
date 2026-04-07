@@ -87,7 +87,7 @@ GET /symptom-records?userId=user-123&fromDate=2026-03-01T00:00:00Z&toDate=2026-0
 1. **Clone the repository**
    ```bash
    git clone <repository-url>
-   cd gut-insight-backend
+   cd my-gut-tracker-backend
    ```
 
 2. **Install dependencies**
@@ -123,7 +123,7 @@ Import the provided `postman_collection.json` to test all endpoints:
 ## 📁 Project Structure
 
 ```
-gut-insight-backend/
+my-gut-tracker-backend/
 ├── data/
 │   └── records.json          # JSON storage for symptom records
 ├── src/
