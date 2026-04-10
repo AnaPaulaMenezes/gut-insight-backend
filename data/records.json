@@ -1,0 +1,182 @@
+[
+  {
+    "id": "ad8cd049-4e37-492d-be69-825a1c42ca23",
+    "userId": "user-123",
+    "recordAt": "2026-03-05T10:30:00.000Z",
+    "symptoms": [
+      {
+        "symptom": "bloating",
+        "intensity": 7,
+        "notes": "Mild discomfort after lunch"
+      },
+      {
+        "symptom": "fatigue",
+        "intensity": 5
+      }
+    ],
+    "notes": "Had dairy products today"
+  },
+  {
+    "id": "0d002bb9-ffd7-4d5b-9d14-9f2a31ff8526",
+    "userId": "user-123",
+    "recordAt": "2026-03-05T10:30:00.000Z",
+    "symptoms": [
+      {
+        "symptom": "bloating",
+        "intensity": 7,
+        "notes": "Mild discomfort after lunch"
+      },
+      {
+        "symptom": "fatigue",
+        "intensity": 5
+      }
+    ],
+    "notes": "Had dairy products today"
+  },
+  {
+    "id": "1bcb95fb-5079-476a-9f87-69cfb4d5a9d6",
+    "userId": "string",
+    "recordAt": "2026-03-10T00:04:13.308Z",
+    "symptoms": [
+      {
+        "symptom": "string",
+        "intensity": 0,
+        "notes": "string"
+      }
+    ],
+    "notes": "string"
+  },
+  {
+    "id": "da056342-bb5b-444f-b141-b5fa6244cc14",
+    "userId": "user-123",
+    "recordAt": "2026-03-05T10:30:00.000Z",
+    "symptoms": [
+      {
+        "symptom": "bloating",
+        "intensity": 7,
+        "notes": "Mild discomfort after lunch"
+      },
+      {
+        "symptom": "fatigue",
+        "intensity": 5
+      }
+    ],
+    "notes": "Had dairy products today"
+  },
+  {
+    "id": "4befbb04-14be-4276-af93-40a229eaadc2",
+    "userId": "user-123",
+    "recordAt": "2026-04-06T23:58:38.343Z",
+    "symptoms": [
+      {
+        "symptom": "heartburn",
+        "intensity": 5
+      }
+    ],
+    "notes": ""
+  },
+  {
+    "id": "b6a32735-b0bb-4d44-925d-fbacb98bc867",
+    "userId": "user-123",
+    "recordAt": "2026-04-07T00:04:15.200Z",
+    "symptoms": [
+      {
+        "symptom": "heartburn",
+        "intensity": 5
+      }
+    ],
+    "notes": ""
+  },
+  {
+    "id": "5e5e4709-8bdb-4b68-afbb-f747f35aebf8",
+    "userId": "user-123",
+    "recordAt": "2026-04-07T00:13:46.021Z",
+    "symptoms": [
+      {
+        "symptom": "constipation",
+        "intensity": 5
+      }
+    ],
+    "notes": ""
+  },
+  {
+    "id": "fcd9e08e-b844-41dd-aaa6-ea8da604baf6",
+    "userId": "user-123",
+    "recordAt": "2026-04-07T00:14:29.144Z",
+    "symptoms": [
+      {
+        "symptom": "gas",
+        "intensity": 5
+      }
+    ],
+    "notes": ""
+  },
+  {
+    "id": "c596c52a-cb16-43c1-8e9f-2a2dce9294ac",
+    "userId": "user-123",
+    "recordAt": "2026-04-07T00:14:42.843Z",
+    "symptoms": [
+      {
+        "symptom": "heartburn",
+        "intensity": 5
+      }
+    ],
+    "notes": ""
+  },
+  {
+    "id": "bf321782-1808-4e7c-bdae-472f3951449d",
+    "userId": "user-123",
+    "recordAt": "2026-04-07T00:19:02.762Z",
+    "symptoms": [
+      {
+        "symptom": "constipation",
+        "intensity": 5
+      }
+    ],
+    "notes": ""
+  },
+  {
+    "id": "cb20cbf5-a21a-483e-887c-0ad37b5521a6",
+    "userId": "user-123",
+    "recordAt": "2026-04-07T00:20:10.125Z",
+    "symptoms": [
+      {
+        "symptom": "constipation",
+        "intensity": 5
+      }
+    ],
+    "notes": ""
+  },
+  {
+    "id": "814eabae-ec8b-46cf-8514-51036f6d5755",
+    "userId": "user-123",
+    "recordAt": "2026-04-07T00:32:48.550Z",
+    "symptoms": [
+      {
+        "symptom": "constipation",
+        "intensity": 5
+      },
+      {
+        "symptom": "diarrhea",
+        "intensity": 5
+      },
+      {
+        "symptom": "cramping",
+        "intensity": 5
+      }
+    ],
+    "notes": ""
+  },
+  {
+    "id": "1e5168d0-845e-4c81-afb5-0f6750ce31dc",
+    "userId": "user-123",
+    "recordAt": "2026-04-09T23:21:11.488Z",
+    "symptoms": [
+      {
+        "symptom": "diarrhea",
+        "intensity": 5
+      }
+    ],
+    "notes": ""
+  }
+]
