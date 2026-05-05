@@ -3,10 +3,11 @@ import { RegisterSymptomRecordUseCase } from "./application/use-case/symptom-rec
 import { ListSymptomRecordUseCase } from "./application/use-case/symptom-record/list-symptom-record.usecase";
 import { SymptomRecordRepository } from "./domain/repository/symptom-record.repository";
 import { SymptomRecordRepositoryImpl } from "./infra/repository/symptom-record-json.repository";
+import { MongooseSymptomRecordRepository } from "./infra/repository/symptom-record-mongoose.repository";
 
 export class AppModule {
     public static createSymptomRecord(): SymptomRecordController {
-        const repository = new SymptomRecordRepositoryImpl();
+        const repository = new MongooseSymptomRecordRepository();
         const registerUseCase = new RegisterSymptomRecordUseCase(repository);
         const listUseCase = new ListSymptomRecordUseCase(repository);
         return new SymptomRecordController(registerUseCase, listUseCase);
