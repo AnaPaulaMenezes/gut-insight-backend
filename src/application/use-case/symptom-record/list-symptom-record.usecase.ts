@@ -11,14 +11,16 @@ export class ListSymptomRecordUseCase {
   public async execute(
     filter: ListSymptomRecordInputDTO,
   ): Promise<ListSymptomRecordOutput[]> {
-    
+    if (!filter.userId) {
+      throw new Error("userId is required");
+    }
     const records = await this.symptomRecordRepository.findByFilter({
       userId: filter.userId,
       fromDate: filter.fromDate ? new Date(filter.fromDate) : undefined,
       toDate: filter.toDate ? new Date(filter.toDate) : undefined,
       symptom: filter.symptom,
     });
-    
+
     const output: ListSymptomRecordOutput[] = records.map((record) => ({
       id: record.getId(),
       recordAt: record.getRecordAt(),

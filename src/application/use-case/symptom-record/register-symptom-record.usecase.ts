@@ -11,6 +11,9 @@ export class RegisterSymptomRecordUseCase {
   public async execute(
     record: SymptomRecordInputDTO,
   ): Promise<SymptomRecordOutputDTO> {
+    if (!record.userId) {
+      throw new Error("userId is required");
+    }
     const symptomRecord =  SymptomRecord.create(
       record.userId, //TODO get from auth context
       new Date(record.recordAt),
