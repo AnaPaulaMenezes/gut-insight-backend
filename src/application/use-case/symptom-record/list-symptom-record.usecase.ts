@@ -11,7 +11,14 @@ export class ListSymptomRecordUseCase {
   public async execute(
     filter: ListSymptomRecordInputDTO,
   ): Promise<ListSymptomRecordOutput[]> {
-    const records = await this.symptomRecordRepository.findByFilter(filter);
+    
+    const records = await this.symptomRecordRepository.findByFilter({
+      userId: filter.userId,
+      fromDate: filter.fromDate ? new Date(filter.fromDate) : undefined,
+      toDate: filter.toDate ? new Date(filter.toDate) : undefined,
+      symptom: filter.symptom,
+    });
+    
     const output: ListSymptomRecordOutput[] = records.map((record) => ({
       id: record.getId(),
       recordAt: record.getRecordAt(),

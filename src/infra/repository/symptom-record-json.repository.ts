@@ -2,9 +2,9 @@ import { promises as fs } from "fs";
 import path from "path";
 import { SymptomRecord } from "../../domain/entity/symptom-record";
 import {
+  SymptomRecordFilters,
   SymptomRecordRepository,
 } from "../../domain/repository/symptom-record.repository";
-import { ListSymptomRecordInputDTO } from "../../application/use-case/symptom-record/model/list-symptom-record-input.dto";
 
 type PersistenceModel = {
   id: string;
@@ -47,7 +47,7 @@ export class SymptomRecordRepositoryImpl implements SymptomRecordRepository {
     return this.mapToEntity(found);
   }
 
-  async findByFilter(filter: ListSymptomRecordInputDTO): Promise<SymptomRecord[]> {
+  async findByFilter(filter: SymptomRecordFilters): Promise<SymptomRecord[]> {
     const records = await this.readFile();
 
     const filtered = records.filter((r) => {

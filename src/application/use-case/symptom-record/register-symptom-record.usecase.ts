@@ -12,7 +12,7 @@ export class RegisterSymptomRecordUseCase {
     record: SymptomRecordInputDTO,
   ): Promise<SymptomRecordOutputDTO> {
     const symptomRecord =  SymptomRecord.create(
-      record.userId,
+      record.userId, //TODO get from auth context
       new Date(record.recordAt),
       record.symptoms,
       record.notes,

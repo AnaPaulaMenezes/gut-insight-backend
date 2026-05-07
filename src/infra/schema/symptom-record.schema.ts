@@ -8,6 +8,7 @@ const symptomObservationSchema = new mongoose.Schema({
 
 
 const symptomRecordSchema = new mongoose.Schema({
+  _id: { type: String, required: true },
   userId: { type: String, required: true },
   recordAt: { type: Date, required: true },
   symptoms: { type: [symptomObservationSchema], required: true },
@@ -15,6 +16,7 @@ const symptomRecordSchema = new mongoose.Schema({
 });
 
 export interface SymptomRecordDocument extends Document {
+  _id: string;
   userId: string;
   recordAt: Date;
   symptoms: { symptom: string; intensity: number; notes?: string }[];

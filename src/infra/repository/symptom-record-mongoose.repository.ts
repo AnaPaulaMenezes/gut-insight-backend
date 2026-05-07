@@ -1,34 +1,54 @@
 import { ListSymptomRecordInputDTO } from "../../application/use-case/symptom-record/model/list-symptom-record-input.dto";
 import { SymptomRecord } from "../../domain/entity/symptom-record";
-import { SymptomRecordRepository } from "../../domain/repository/symptom-record.repository";
-import { SymptomRecordDocument, SymptomRecordModel } from "../schema/symptom-record.schema";
+import { SymptomRecordFilters, SymptomRecordRepository } from "../../domain/repository/symptom-record.repository";
+import {
+  SymptomRecordDocument,
+  SymptomRecordModel,
+} from "../schema/symptom-record.schema";
 
 export class MongooseSymptomRecordRepository implements SymptomRecordRepository {
   async save(record: SymptomRecord): Promise<void> {
-    const symptomRecordDoc = new SymptomRecordModel({
-      _id: record.getId(),
-      userId: record.getUserId(),
-      recordAt: record.getRecordAt(),
-      symptoms: record.getSymptoms(),
-      notes: record.getNotes(),
+    await SymptomRecordModel.create({
+      ...this.toDocument(record),
     });
-    await symptomRecordDoc.save();
-  }
-  findById(id: string): Promise<SymptomRecord | null> {
-    throw new Error("Method not implemented.");
-  }
-  findByFilter(filters: ListSymptomRecordInputDTO): Promise<SymptomRecord[]> {
-    throw new Error("Method not implemented.");
-  }
-  deleteById(id: string): Promise<void> {
-    throw new Error("Method not implemented.");
   }
 
-  async findAll() {
-    return SymptomRecordModel.find();
+  async findById(id: string): Promise<SymptomRecord | null> {
+    const doc = await SymptomRecordModel.findById(id);
+    if (!doc) return null;
+    return this.toDomain(doc);
   }
+  
+  async findByFilter(filters: SymptomRecordFilters): Promise<SymptomRecord[]> {
+    const query: Record<string, any> = { userId: filters.userId };
+   
+    if(filters.fromDate && filters.toDate) {
+      query.recordAt = {
+        $gte: filters.fromDate,
+        $lte: filters.toDate
+      };
+    }
+
+    if(filters.symptom) {
+      query.symptoms = {
+        $elemMatch: {
+          symptom: filters.symptom
+        }
+      };
+    }
+
+    const docs = await SymptomRecordModel.find(query);
+    return docs.map(doc => this.toDomain(doc));
+
+  }
+
+  async deleteById(id: string): Promise<void> {
+    await SymptomRecordModel.findByIdAndDelete(id).exec();
+  }
+
   private toDocument(record: SymptomRecord) {
     return {
+      _id: record.getId(),
       userId: record.getUserId(),
       recordAt: record.getRecordAt(),
       symptoms: record.getSymptoms(),
