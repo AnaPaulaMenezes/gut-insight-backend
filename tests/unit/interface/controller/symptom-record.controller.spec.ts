@@ -3,6 +3,8 @@ import { SymptomRecordController } from '../../../../src/interface/controller/sy
 import {
   createListSymptomRecordUseCaseMock,
   createRegisterSymptomRecordUseCaseMock,
+  createUpdateSymptomRecordUseCaseMock,
+  createDeleteSymptomRecordUseCaseMock,
 } from '../../../mocks/use-cases/symptom-record-usecases.mock';
 
 const createResponseMock = () => {
@@ -14,12 +16,21 @@ const createResponseMock = () => {
 describe('SymptomRecordController', () => {
   let registerUseCase: jest.Mocked<ReturnType<typeof createRegisterSymptomRecordUseCaseMock>>;
   let listUseCase: jest.Mocked<ReturnType<typeof createListSymptomRecordUseCaseMock>>;
+  let updateUseCase: jest.Mocked<ReturnType<typeof createUpdateSymptomRecordUseCaseMock>>;
+  let deleteUseCase: jest.Mocked<ReturnType<typeof createDeleteSymptomRecordUseCaseMock>>;
   let controller: SymptomRecordController;
 
   beforeEach(() => {
     registerUseCase = createRegisterSymptomRecordUseCaseMock();
     listUseCase = createListSymptomRecordUseCaseMock();
-    controller = new SymptomRecordController(registerUseCase, listUseCase);
+    updateUseCase = createUpdateSymptomRecordUseCaseMock();
+    deleteUseCase = createDeleteSymptomRecordUseCaseMock();
+    controller = new SymptomRecordController(
+      registerUseCase,
+      listUseCase,
+      updateUseCase,
+      deleteUseCase,
+    );
   });
 
   it('should call RegisterSymptomRecordUseCase with the request body and return a 201 response', async () => {
@@ -61,6 +72,58 @@ describe('SymptomRecordController', () => {
     await controller.list(req, res);
 
     expect(listUseCase.execute).toHaveBeenCalledWith(req.query);
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.status().json).toHaveBeenCalledWith(expectedOutput);
+  });
+
+  it('should call UpdateSymptomRecordUseCase with id from params and body, and return a 200 response', async () => {
+    const expectedOutput = { id: 'abc-123' };
+    updateUseCase.execute.mockResolvedValue(expectedOutput);
+
+    const req = {
+      params: { id: 'abc-123' },
+      body: {
+        userId: 'user-1',
+        recordAt: '2025-10-15T00:00:00Z',
+        symptoms: [{ symptom: 'bloating', intensity: 5 }],
+        notes: 'updated notes',
+      },
+    } as unknown as Request;
+
+    const res = createResponseMock() as any;
+
+    await controller.update(req, res);
+
+    expect(updateUseCase.execute).toHaveBeenCalledWith({
+      id: 'abc-123',
+      userId: 'user-1',
+      recordAt: '2025-10-15T00:00:00Z',
+      symptoms: [{ symptom: 'bloating', intensity: 5 }],
+      notes: 'updated notes',
+    });
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.status().json).toHaveBeenCalledWith(expectedOutput);
+  });
+
+  it('should call DeleteSymptomRecordUseCase with id from params and body, and return a 200 response', async () => {
+    const expectedOutput = { id: 'abc-123' };
+    deleteUseCase.execute.mockResolvedValue(expectedOutput);
+
+    const req = {
+      params: { id: 'abc-123' },
+      body: {
+        userId: 'user-1',
+      },
+    } as unknown as Request;
+
+    const res = createResponseMock() as any;
+
+    await controller.delete(req, res);
+
+    expect(deleteUseCase.execute).toHaveBeenCalledWith({
+      id: 'abc-123',
+      userId: 'user-1',
+    });
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.status().json).toHaveBeenCalledWith(expectedOutput);
   });
