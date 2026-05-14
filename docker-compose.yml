@@ -1,0 +1,13 @@
+services:
+  api:
+    build: .
+    container_name: gut-insight-backend
+    ports:
+      - "0.0.0.0:3000:3000" # Mapeia a porta 3000 do container para a porta 3000 da máquina host
+    volumes:
+      - .:/app    # Espelhamento do código (mudou aqui, muda lá)
+      - /app/node_modules # Protege o node_modules interno
+    env_file:
+      - .env # Carrega as variáveis de ambiente do arquivo .env
+    environment:
+      - NODE_ENV=development # Define a variável de ambiente para desenvolvimento
