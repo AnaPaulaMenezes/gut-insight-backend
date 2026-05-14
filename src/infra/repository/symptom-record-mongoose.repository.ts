@@ -1,4 +1,3 @@
-import { ListSymptomRecordInputDTO } from "../../application/use-case/symptom-record/model/list-symptom-record-input.dto";
 import { SymptomRecord } from "../../domain/entity/symptom-record";
 import { SymptomRecordFilters, SymptomRecordRepository } from "../../domain/repository/symptom-record.repository";
 import {
@@ -11,6 +10,12 @@ export class MongooseSymptomRecordRepository implements SymptomRecordRepository 
     await SymptomRecordModel.create({
       ...this.toDocument(record),
     });
+  }
+
+  async update(record: SymptomRecord): Promise<void> {
+    await SymptomRecordModel.findByIdAndUpdate(record.getId(), this.toDocument(record), {
+      new: true,
+    }).exec();
   }
 
   async findById(id: string): Promise<SymptomRecord | null> {

@@ -107,6 +107,93 @@ export function createRouter(symptomRecordController: SymptomRecordController): 
    *                     type: string
    */
   router.get("/", (req, res) => symptomRecordController.list(req, res));
-    // router.put("/symptom-records/:id", (req, res) => symptomRecordController.update(req, res));
-    return router;
+  /**
+   * @openapi
+   * /symptom-records/{id}:
+   *   put:
+   *     tags:
+   *       - SymptomRecords
+   *     summary: Update a symptom record
+   *     parameters:
+   *       - in: path
+   *         name: id
+   *         required: true
+   *         schema:
+   *           type: string
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             required:
+   *               - userId
+   *             properties:
+   *               userId:
+   *                 type: string
+   *               recordAt:
+   *                 type: string
+   *                 format: date-time
+   *               symptoms:
+   *                 type: array
+   *                 items:
+   *                   type: object
+   *                   properties:
+   *                     symptom:
+   *                       type: string
+   *                     intensity:
+   *                       type: number
+   *                     notes:
+   *                       type: string
+   *               notes:
+   *                 type: string
+   *     responses:
+   *       200:
+   *         description: Updated symptom record
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 id:
+   *                   type: string
+   */
+  router.put("/:id", (req, res) => symptomRecordController.update(req, res));
+  /**
+   * @openapi
+   * /symptom-records/{id}:
+   *   delete:
+   *     tags:
+   *       - SymptomRecords
+   *     summary: Delete a symptom record
+   *     parameters:
+   *       - in: path
+   *         name: id
+   *         required: true
+   *         schema:
+   *           type: string
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             required:
+   *               - userId
+   *             properties:
+   *               userId:
+   *                 type: string
+   *     responses:
+   *       200:
+   *         description: Deleted symptom record
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 id:
+   *                   type: string
+   */
+  router.delete("/:id", (req, res) => symptomRecordController.delete(req, res));
+  return router;
 }

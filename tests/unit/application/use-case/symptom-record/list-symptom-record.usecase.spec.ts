@@ -33,7 +33,12 @@ describe('ListSymptomRecordUseCase', () => {
 
     const result = await useCase.execute(filter);
 
-    expect(mockRepo.findByFilter).toHaveBeenCalledWith(filter);
+    expect(mockRepo.findByFilter).toHaveBeenCalledWith({
+      userId: 'user-1',
+      fromDate: new Date('2025-10-01'),
+      toDate: new Date('2025-10-31'),
+      symptom: undefined,
+    });
 
     const expected: ListSymptomRecordOutput[] = [
       {
@@ -58,7 +63,12 @@ describe('ListSymptomRecordUseCase', () => {
 
     const result = await useCase.execute(filter);
 
-    expect(mockRepo.findByFilter).toHaveBeenCalledWith(filter);
+    expect(mockRepo.findByFilter).toHaveBeenCalledWith({
+      userId: 'user-1',
+      fromDate: new Date('2025-10-01'),
+      toDate: new Date('2025-10-31'),
+      symptom: undefined,
+    });
     expect(result).toEqual([]);
   });
 
