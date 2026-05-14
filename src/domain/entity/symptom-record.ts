@@ -1,4 +1,5 @@
 import Crypto from "crypto";
+import { ValidationError } from "../errors/validation-error";
 
 declare type SymptomObservation = {
   symptom: string;
@@ -28,7 +29,7 @@ export class SymptomRecord {
 
   public updateRecordAt(date: Date): void {
     if (!date) {
-      throw new Error("Record date is required");
+      throw new ValidationError("Record date is required");
     }
 
     this.recordAt = date;
@@ -64,15 +65,15 @@ export class SymptomRecord {
 
   private validate(): void {
     if (!this.userId) {
-      throw new Error("User ID is required");
+      throw new ValidationError("User ID is required");
     }
 
     if (!this.recordAt) {
-      throw new Error("Record date is required");
+      throw new ValidationError("Record date is required");
     }
 
     if (!this.symptoms || this.symptoms.length === 0) {
-      throw new Error("At least one symptom observation is required");
+      throw new ValidationError("At least one symptom observation is required");
     }
   }
 
@@ -87,8 +88,8 @@ export class SymptomRecord {
   }
 
   private validateIntensity(intensity: number): void {
-    if (isNaN(intensity) || intensity < 0 || intensity > 10) {
-      throw new Error("Intensity must be between 0 and 10");
+    if (isNaN(intensity) || intensity < 1 || intensity > 10) {
+      throw new ValidationError("Intensity must be between 1 and 10");
     }
   }
 }

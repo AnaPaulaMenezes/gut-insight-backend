@@ -1,7 +1,7 @@
 import { ListSymptomRecordInputDTO } from "./model/list-symptom-record-input.dto";
 import { ListSymptomRecordOutput } from "./model/list-symptom-record-output.dto";
-import { SymptomRecord } from "../../../domain/entity/symptom-record";
 import { SymptomRecordRepository } from "../../../domain/repository/symptom-record.repository";
+import { ValidationError } from "../../../domain/errors/validation-error";
 
 export class ListSymptomRecordUseCase {
   constructor(
@@ -12,7 +12,7 @@ export class ListSymptomRecordUseCase {
     filter: ListSymptomRecordInputDTO,
   ): Promise<ListSymptomRecordOutput[]> {
     if (!filter.userId) {
-      throw new Error("userId is required");
+      throw new ValidationError("userId is required");
     }
     const records = await this.symptomRecordRepository.findByFilter({
       userId: filter.userId,

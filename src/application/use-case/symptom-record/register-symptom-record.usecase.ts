@@ -2,6 +2,7 @@ import { SymptomRecordInputDTO } from "./model/symptom-record-input.dto";
 import { SymptomRecordOutputDTO } from "./model/symptom-record-output.dto";
 import { SymptomRecord } from "../../../domain/entity/symptom-record";
 import { SymptomRecordRepository } from "../../../domain/repository/symptom-record.repository";
+import { ValidationError } from "../../../domain/errors/validation-error";
 
 export class RegisterSymptomRecordUseCase {
   constructor(
@@ -12,7 +13,7 @@ export class RegisterSymptomRecordUseCase {
     record: SymptomRecordInputDTO,
   ): Promise<SymptomRecordOutputDTO> {
     if (!record.userId) {
-      throw new Error("userId is required");
+      throw new ValidationError("userId is required");
     }
     const symptomRecord =  SymptomRecord.create(
       record.userId, //TODO get from auth context

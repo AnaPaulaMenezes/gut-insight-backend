@@ -5,6 +5,7 @@ import {
   SymptomRecordFilters,
   SymptomRecordRepository,
 } from "../../domain/repository/symptom-record.repository";
+import { NotFoundError } from "../../domain/errors/not-found-error";
 
 type PersistenceModel = {
   id: string;
@@ -68,7 +69,7 @@ export class SymptomRecordRepositoryImpl implements SymptomRecordRepository {
     const records = await this.readFile();
 
     const index = records.findIndex((r) => r.id === record.getId());
-    if (index === -1) throw new Error("Record not found");
+    if (index === -1) throw new NotFoundError("Record not found");
 
     records[index] = this.mapToModel(record);
 
