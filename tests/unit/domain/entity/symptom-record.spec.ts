@@ -1,4 +1,5 @@
 import { SymptomRecord } from '../../../../src/domain/entity/symptom-record';
+import { ValidationError } from '../../../../src/domain/errors/validation-error';
 
 describe('SymptomRecord', () => {
   it('should create successfully with valid data and normalize symptoms', () => {
@@ -25,7 +26,7 @@ describe('SymptomRecord', () => {
         new Date('2025-10-14T00:00:00Z'),
         [{ symptom: 'bloating', intensity: 3 }],
       ),
-    ).toThrow('User ID is required');
+    ).toThrow(new ValidationError('User ID is required'));
   });
 
   it('should throw if created without a record date', () => {
@@ -35,13 +36,13 @@ describe('SymptomRecord', () => {
         null as any,
         [{ symptom: 'bloating', intensity: 3 }],
       ),
-    ).toThrow('Record date is required');
+    ).toThrow(new ValidationError('Record date is required'));
   });
 
   it('should throw if created without symptoms', () => {
     expect(() =>
       SymptomRecord.create('user-1', new Date(), []),
-    ).toThrow('At least one symptom observation is required');
+    ).toThrow(new ValidationError('At least one symptom observation is required'));
   });
 
   it('should throw when updating record date to null', () => {
@@ -52,7 +53,7 @@ describe('SymptomRecord', () => {
     );
 
     expect(() => record.updateRecordAt(null as any)).toThrow(
-      'Record date is required',
+      new ValidationError('Record date is required'),
     );
   });
 
@@ -65,7 +66,7 @@ describe('SymptomRecord', () => {
 
     expect(() =>
       record.updateSymptoms([{ symptom: 'bloating', intensity: -1 }]),
-    ).toThrow('Intensity must be between 0 and 10');
+    ).toThrow(new ValidationError('Intensity must be between 1 and 10'));
   });
 
   it('should throw when updating symptoms with intensity greater than 10', () => {
@@ -77,7 +78,7 @@ describe('SymptomRecord', () => {
 
     expect(() =>
       record.updateSymptoms([{ symptom: 'bloating', intensity: 11 }]),
-    ).toThrow('Intensity must be between 0 and 10');
+    ).toThrow(new ValidationError('Intensity must be between 1 and 10'));
   });
 
   it('should allow updating record date and notes', () => {
