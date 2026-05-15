@@ -1,7 +1,8 @@
 import Crypto from "crypto";
 import { ValidationError } from "../errors/validation-error";
+import { isDate } from "util/types";
 
-declare type SymptomObservation = {
+export type SymptomObservation = {
   symptom: string;
   intensity: number;
   notes?: string;
@@ -17,7 +18,8 @@ export class SymptomRecord {
     private notes?: string,
   ) {
     this.symptoms = this.symptoms.map(s => this.validateAndSanitizeSymptom(s));
-    this.validate();
+    this.validateRequiredFields();
+    this.validateRecordAt();
   }
 
   public static create(userId: string, recordAt: Date, symptoms: SymptomObservation[], notes?: string): SymptomRecord {
@@ -40,6 +42,7 @@ export class SymptomRecord {
   }
 
   public updateSymptoms(symptoms: SymptomObservation[]): void {
+    if(!symptoms?.length) throw new ValidationError("Symptoms is required")
     this.symptoms = symptoms.map(s => this.validateAndSanitizeSymptom(s));
   }
 
@@ -63,7 +66,7 @@ export class SymptomRecord {
     return this.userId;
   }
 
-  private validate(): void {
+  private validateRequiredFields(): void {
     if (!this.userId) {
       throw new ValidationError("User ID is required");
     }
@@ -90,6 +93,14 @@ export class SymptomRecord {
   private validateIntensity(intensity: number): void {
     if (isNaN(intensity) || intensity < 1 || intensity > 10) {
       throw new ValidationError("Intensity must be between 1 and 10");
+    }
+  }
+
+  private validateRecordAt(): void{
+    const now = new Date();
+
+    if (this.recordAt > now) {
+      throw new ValidationError("Record date cannot be in the future")
     }
   }
 }
