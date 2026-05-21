@@ -83,7 +83,7 @@ export class SymptomRecord {
   private validateAndSanitizeSymptom(symptoms: SymptomObservation): SymptomObservation {
     const sanitizedSymptom = this.sanitizeSymptom(symptoms.symptom);
     this.validateIntensity(symptoms.intensity);
-    return { ...symptoms, symptom: sanitizedSymptom };
+    return { symptom: sanitizedSymptom, intensity: symptoms.intensity, notes: symptoms.notes };
   }
 
   private sanitizeSymptom(symptom: string): string {
