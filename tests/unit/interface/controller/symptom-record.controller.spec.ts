@@ -3,6 +3,7 @@ import { SymptomRecordController } from '../../../../src/interface/controller/sy
 import {
   createListSymptomRecordUseCaseMock,
   createRegisterSymptomRecordUseCaseMock,
+  createGetByIdSymptomRecordUseCaseMock,
   createUpdateSymptomRecordUseCaseMock,
   createDeleteSymptomRecordUseCaseMock,
 } from '../../../mocks/use-cases/symptom-record-usecases.mock';
@@ -16,6 +17,7 @@ const createResponseMock = () => {
 describe('SymptomRecordController', () => {
   let registerUseCase: jest.Mocked<ReturnType<typeof createRegisterSymptomRecordUseCaseMock>>;
   let listUseCase: jest.Mocked<ReturnType<typeof createListSymptomRecordUseCaseMock>>;
+  let getByIdUseCase: jest.Mocked<ReturnType<typeof createGetByIdSymptomRecordUseCaseMock>>;
   let updateUseCase: jest.Mocked<ReturnType<typeof createUpdateSymptomRecordUseCaseMock>>;
   let deleteUseCase: jest.Mocked<ReturnType<typeof createDeleteSymptomRecordUseCaseMock>>;
   let controller: SymptomRecordController;
@@ -23,11 +25,13 @@ describe('SymptomRecordController', () => {
   beforeEach(() => {
     registerUseCase = createRegisterSymptomRecordUseCaseMock();
     listUseCase = createListSymptomRecordUseCaseMock();
+    getByIdUseCase = createGetByIdSymptomRecordUseCaseMock();
     updateUseCase = createUpdateSymptomRecordUseCaseMock();
     deleteUseCase = createDeleteSymptomRecordUseCaseMock();
     controller = new SymptomRecordController(
       registerUseCase,
       listUseCase,
+      getByIdUseCase,
       updateUseCase,
       deleteUseCase,
     );
