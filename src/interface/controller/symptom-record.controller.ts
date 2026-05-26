@@ -27,8 +27,9 @@ export class SymptomRecordController {
 
     async getById(req: Request, res: Response) {
         const userId = Array.isArray(req.query.userId) ? req.query.userId[0] : req.query.userId;
+        const id = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
         const output = await this.getByIdUseCase.execute({
-            id: Array.isArray(req.params.id) ? req.params.id[0] : req.params.id,
+            id: id!,
             userId: userId as string,
         });
         return res.status(200).json(output);
@@ -43,9 +44,11 @@ export class SymptomRecordController {
     }
 
     async delete(req: Request, res: Response) {
+        const userId = Array.isArray(req.query.userId) ? req.query.userId[0] : req.query.userId;
+        const id = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
         const output = await this.deleteUseCase.execute({
-            ...req.body,
-            id: req.params.id!,
+            userId: userId as string,
+            id: id!,
         });
         return res.status(200).json(output);
     }
