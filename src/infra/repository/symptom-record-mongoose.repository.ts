@@ -1,5 +1,8 @@
 import { SymptomRecord } from "../../domain/entity/symptom-record";
-import { SymptomRecordFilters, SymptomRecordRepository } from "../../domain/repository/symptom-record.repository";
+import {
+  SymptomRecordFilters,
+  SymptomRecordRepository,
+} from "../../domain/repository/symptom-record.repository";
 import {
   SymptomRecordDocument,
   SymptomRecordModel,
@@ -13,9 +16,13 @@ export class MongooseSymptomRecordRepository implements SymptomRecordRepository 
   }
 
   async update(record: SymptomRecord): Promise<void> {
-    await SymptomRecordModel.findByIdAndUpdate(record.getId(), this.toDocument(record), {
-      new: true,
-    }).exec();
+    await SymptomRecordModel.findByIdAndUpdate(
+      record.getId(),
+      this.toDocument(record),
+      {
+        new: true,
+      },
+    ).exec();
   }
 
   async findById(id: string): Promise<SymptomRecord | null> {
@@ -23,28 +30,27 @@ export class MongooseSymptomRecordRepository implements SymptomRecordRepository 
     if (!doc) return null;
     return this.toDomain(doc);
   }
-  
+
   async findByFilter(filters: SymptomRecordFilters): Promise<SymptomRecord[]> {
     const query: Record<string, any> = { userId: filters.userId };
-   
-    if(filters.fromDate && filters.toDate) {
+
+    if (filters.fromDate && filters.toDate) {
       query.recordAt = {
         $gte: filters.fromDate,
-        $lte: filters.toDate
+        $lte: filters.toDate,
       };
     }
 
-    if(filters.symptom) {
+    if (filters.symptom) {
       query.symptoms = {
         $elemMatch: {
-          symptom: filters.symptom
-        }
+          symptom: filters.symptom,
+        },
       };
     }
 
     const docs = await SymptomRecordModel.find(query);
-    return docs.map(doc => this.toDomain(doc));
-
+    return docs.map((doc) => this.toDomain(doc));
   }
 
   async deleteById(id: string): Promise<void> {
@@ -66,7 +72,11 @@ export class MongooseSymptomRecordRepository implements SymptomRecordRepository 
       doc._id.toString(),
       doc.userId,
       doc.recordAt,
-      doc.symptoms,
+      doc.symptoms.map((s) => ({
+        symptom: s.symptom,
+        intensity: s.intensity,
+        notes: s.notes,
+      })),
       doc.notes ?? "",
     );
   }
