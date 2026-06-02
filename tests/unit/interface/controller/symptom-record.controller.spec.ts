@@ -115,7 +115,7 @@ describe('SymptomRecordController', () => {
 
     const req = {
       params: { id: 'abc-123' },
-      body: {
+      query: {
         userId: 'user-1',
       },
     } as unknown as Request;
