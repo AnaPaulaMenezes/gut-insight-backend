@@ -49,7 +49,9 @@ export class MongooseSymptomRecordRepository implements SymptomRecordRepository 
       };
     }
 
-    const docs = await SymptomRecordModel.find(query);
+    const docs = await SymptomRecordModel.find(query)
+      .sort({ recordAt: -1 })
+      .limit(20);
     return docs.map((doc) => this.toDomain(doc));
   }
 

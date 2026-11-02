@@ -117,7 +117,9 @@ describe(MongooseSymptomRecordRepository.name, () => {
 
         const expectedDomain = mockReturn.map(doc => SymptomRecord.rehydrate(doc._id, doc.userId, doc.recordAt, doc.symptoms, doc.notes));
         
-        (SymptomRecordModel.find as jest.Mock).mockResolvedValue(mockReturn);
+        const limit = jest.fn().mockResolvedValue(mockReturn);
+        const sort = jest.fn().mockReturnValue({ limit });
+        (SymptomRecordModel.find as jest.Mock).mockReturnValue({ sort });
         
         const actual = await repository.findByFilter(filters);
         
@@ -126,12 +128,16 @@ describe(MongooseSymptomRecordRepository.name, () => {
           recordAt: { $gte: filters.fromDate, $lte: filters.toDate },
           symptoms: { $elemMatch: { symptom: filters.symptom } },
         });
+        expect(sort).toHaveBeenCalledWith({ recordAt: -1 });
+        expect(limit).toHaveBeenCalledWith(20);
         expect(actual).toEqual(expectedDomain);
     });
 
     it("should return an empty array if no records match the filters", async () => {
         const filters = { userId: "user-1", fromDate: new Date("2024-01-01T00:00:00Z"), toDate: new Date("2024-01-31T23:59:59Z"), symptom: "non-existent-symptom" };
-        (SymptomRecordModel.find as jest.Mock).mockResolvedValue([]);
+        const limit = jest.fn().mockResolvedValue([]);
+        const sort = jest.fn().mockReturnValue({ limit });
+        (SymptomRecordModel.find as jest.Mock).mockReturnValue({ sort });
 
         const actual = await repository.findByFilter(filters);
 
@@ -140,6 +146,8 @@ describe(MongooseSymptomRecordRepository.name, () => {
           recordAt: { $gte: filters.fromDate, $lte: filters.toDate },
           symptoms: { $elemMatch: { symptom: filters.symptom } },
         });
+        expect(sort).toHaveBeenCalledWith({ recordAt: -1 });
+        expect(limit).toHaveBeenCalledWith(20);
         expect(actual).toEqual([]);
     });
   });
